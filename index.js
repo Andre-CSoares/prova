@@ -3,32 +3,57 @@ const { createApp } = Vue;
 createApp({
     data() {
         return {
-            heroi: {vida: 100},
-            vilao: {vida: 100}
+            heroi: { vida: 100 },
+            vilao: { vida: 100 }
         }
     },
     methods: {
         atacar(isHeroi) {
-            if(isHeroi) {
+            if (isHeroi) {
                 this.vilao.vida -= 10;
-                setTimeout(() => this.acaoVilao(), 2000);
-            } else {
-                this.heroi.vida -= 20;
+                console.log("O herói atacou");
+                setTimeout(() => this.acaoVilao('vilaoAtacar'), 2000);
             }
         },
         defender(isHeroi) {
-            this.acaoVilao();
+            if (isHeroi) {
+                setTimeout(() => this.acaoVilao(''), 2000);
+            }
         },
-        usarPocao(isHeroi) {
-            this.acaoVilao();
+        pocao(isHeroi) {
+            if (this.heroi.vida != 100) {
+                setTimeout(() => this.heroi.vida += 10, 2000);
+                console.log("o heroi está se curando")
+            }
         },
         correr(isHeroi) {
-            this.acaoVilao();
+            if (isHeroi) {
+                this.heroi.vida == 100;
+                console.log("heroi esta fugindo");
+            }
         },
-        acaoVilao() {
-            const acoes = ['atacar', 'defender', 'usarPocao', 'correr'];
-            const acaoAleatoria = acoes[Math.floor(Math.random() * acoes.length)];
-            this[acaoAleatoria](false);b
+        acaoVilao(acaoVilao) {
+            if (acaoVilao === 'vilaoAtacar' && this.vilaoAtacar) {
+                this.vilaoAtacar(true);
+                console.log("O vilão contra atacou")
+            } else if (acaoVilao === '') {
+                console.log("O herói defendeu");
+                return;
+            } else {
+                const acoes = ['vilaoAtacar', 'vilaoDefender', 'vilaoPocao', 'vilaoCorrer'];
+                const acaoAleatoria = acoes[Math.floor(Math.random() * acoes.length)];
+                if (this[acaoAleatoria]) {
+                    this[acaoAleatoria](false);
+                    console.log(acaoAleatoria);
+                } else {
+                    console.error('Ação não encontrada:', acaoAleatoria);
+                }
+            }
+        },
+        vilaoAtacar(isVilao) {
+            if (isVilao) {
+                this.heroi.vida -= 20;
+            }
         }
     }
 }).mount("#app");
